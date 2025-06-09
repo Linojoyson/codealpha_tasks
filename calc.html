@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Calculator</title>
+  <style>
+    body {
+      background-color: #000;
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .calculator {
+      background-color: #333;
+      padding: 20px;
+      border-radius: 20px;
+      box-shadow: 0 0 25px rgba(0, 0, 0, 0.6);
+      width: 320px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .display {
+      background-color: #000;
+      color: #fff;
+      width: 100%;
+      height: 60px;
+      font-size: 28px;
+      text-align: right;
+      padding: 10px;
+      border: 2px solid #444;
+      border-radius: 10px;
+      box-sizing: border-box;
+    }
+
+    .main {
+      display: flex;
+    }
+
+    .numbers {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      flex: 1;
+    }
+
+    .operators {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-left: 10px;
+    }
+
+    .bottom-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    button {
+      padding: 18px;
+      font-size: 20px;
+      border: none;
+      border-radius: 10px;
+      background-color: #555;
+      color: white;
+      cursor: pointer;
+      transition: background-color 0.2s;
+    }
+
+    button:hover {
+      background-color: #666;
+    }
+
+    .operator {
+      background-color: #19d2d2;
+    }
+
+    .operator:hover {
+      background-color: #4e7db4;
+    }
+
+    .equal {
+      background-color: #43a047;
+    }
+
+    .equal:hover {
+      background-color: #388e3c;
+    }
+
+    .clear {
+      background-color: #b71c1c;
+    }
+
+    .clear:hover {
+      background-color: #8a1717;
+    }
+
+    .backspace {
+      background-color: #b71c1c;
+    }
+
+    .backspace:hover {
+      background-color: #851717;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="calculator">
+    <input type="text" class="display" id="display" disabled />
+
+    <div class="main">
+      <div class="numbers">
+        <button onclick="appendNumber('7')">7</button>
+        <button onclick="appendNumber('8')">8</button>
+        <button onclick="appendNumber('9')">9</button>
+
+        <button onclick="appendNumber('4')">4</button>
+        <button onclick="appendNumber('5')">5</button>
+        <button onclick="appendNumber('6')">6</button>
+
+        <button onclick="appendNumber('1')">1</button>
+        <button onclick="appendNumber('2')">2</button>
+        <button onclick="appendNumber('3')">3</button>
+
+        <button onclick="appendNumber('0')">0</button>
+        <button class="operator" onclick="appendDot()">.</button>
+        <div></div>
+      </div>
+
+      <div class="operators">
+        <button class="operator" onclick="appendOperator('+')">+</button>
+        <button class="operator" onclick="appendOperator('-')">−</button>
+        <button class="operator" onclick="appendOperator('*')">×</button>
+        <button class="operator" onclick="appendOperator('/')">÷</button>
+      </div>
+    </div>
+
+    <div class="bottom-row">
+      <button class="clear" onclick="clearDisplay()">C</button>
+      <button class="backspace" onclick="deleteLast()">⌫</button>
+      <button class="equal" onclick="calculate()">=</button>
+    </div>
+  </div>
+
+  <script>
+    const display = document.getElementById("display");
+
+    function appendNumber(num) {
+      display.value += num;
+    }
+
+    function appendOperator(op) {
+      const lastChar = display.value.slice(-1);
+      if (['+', '-', '*', '/'].includes(lastChar)) {
+        display.value = display.value.slice(0, -1) + op;
+      } else {
+        display.value += op;
+      }
+    }
+
+    function appendDot() {
+      let parts = display.value.split(/[\+\-\*\/]/);
+      if (!parts[parts.length - 1].includes(".")) {
+        display.value += ".";
+      }
+    }
+
+    function clearDisplay() {
+      display.value = "";
+    }
+
+    function deleteLast() {
+      display.value = display.value.slice(0, -1);
+    }
+
+    function calculate() {
+      try {
+        display.value = eval(display.value);
+      } catch (e) {
+        display.value = "Error";
+      }
+    }
+  </script>
+
+</body>
+</html>
